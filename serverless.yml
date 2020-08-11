@@ -7,6 +7,7 @@ custom:
     includeModules: true
 
 plugins:
+  - serverless-offline
   - serverless-webpack
 
 provider:

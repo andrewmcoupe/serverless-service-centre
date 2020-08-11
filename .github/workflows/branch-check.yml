@@ -1,0 +1,58 @@
+name: 'Branch Check'
+
+on:
+  push:
+    branches-ignore:
+      - master
+  workflow_dispatch: {}
+
+jobs:
+  linters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Restore cached node_modules
+        id: cache-node-modules
+        uses: actions/cache@master
+        with:
+          path: |
+            node_modules
+            ~/.cache
+          key: v1-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Check with Prettier
+        run: npm run prettier:check
+
+      - name: Check with ESLint
+        run: npm run lint
+        
+      - name: Compile TypeScript
+        run: npm run tsc:repo
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Restore cached node_modules
+        id: cache-node-modules
+        uses: actions/cache@master
+        with:
+          path: |
+            node_modules
+            ~/.cache
+          key: v1-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
