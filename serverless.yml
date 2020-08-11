@@ -1,0 +1,29 @@
+service:
+  name: service-centre
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  memorySize: 256
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+
+functions:
+  helloWorld:
+    handler: src/handlers/hello.handler
+    events:
+      - http:
+          method: POST
+          path: /hello

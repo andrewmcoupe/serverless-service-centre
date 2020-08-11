@@ -1,0 +1,5 @@
+.vscode
+.serverless
+.webpack
+coverage
+*.yml
