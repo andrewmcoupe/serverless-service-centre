@@ -1,12 +1,11 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import { DynamoDB } from 'aws-sdk'
+import withMiddleware from '../middleware/withMiddleware'
 
 const dynamoDb = new DynamoDB.DocumentClient()
+const CUSTOMERS_TABLE_NAME = process.env.CUSTOMERS_TABLE_NAME as string
 
-export class BodyError extends Error {}
-
-// TODO: Add lambda middleware
-export const handler: APIGatewayProxyHandler = async (event): Promise<APIGatewayProxyResult> => {
+export const createCustomer: APIGatewayProxyHandler = async (event): Promise<APIGatewayProxyResult> => {
   if (!event.body) {
     return {
       statusCode: 400,
@@ -24,14 +23,16 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
   }
 
   const params = {
-    TableName: 'customersTable',
+    TableName: CUSTOMERS_TABLE_NAME,
     Item: payload,
   }
 
-  await dynamoDb.put(params)
+  await dynamoDb.put(params).promise()
 
   return {
     statusCode: 200,
     body: JSON.stringify(payload),
   }
 }
+
+export const handler = withMiddleware(createCustomer)
