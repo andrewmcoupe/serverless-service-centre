@@ -10,6 +10,13 @@
     "lint": "eslint . --ext .ts"
   },
   "dependencies": {
+    "@middy/core": "^1.2.0",
+    "@middy/http-error-handler": "^1.2.0",
+    "@middy/http-event-normalizer": "^1.2.0",
+    "@middy/http-json-body-parser": "^1.2.0",
+    "@middy/validator": "^1.2.0",
+    "http-errors": "^1.8.0",
+    "serverless-pseudo-parameters": "^2.5.0",
     "source-map-support": "^0.5.10"
   },
   "devDependencies": {
@@ -27,6 +34,7 @@
     "jest": "^26.3.0",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
+    "serverless-dotenv-plugin": "^3.0.0",
     "serverless-offline": "^6.5.0",
     "serverless-webpack": "^5.2.0",
     "ts-jest": "^26.1.4",

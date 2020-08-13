@@ -5,10 +5,14 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+  stage: ${opt:stage, self:provider.stage}
+  customersTableName: service-centre-customers-${self:custom.stage}
 
 plugins:
   - serverless-offline
   - serverless-webpack
+  - serverless-pseudo-parameters
+  - serverless-dotenv-plugin
 
 provider:
   name: aws
@@ -20,25 +24,36 @@ provider:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    CUSTOMERS_TABLE_NAME: ${self:custom.customersTableName}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+      Resource:
+        - "Fn::GetAtt": [CustomersTable, Arn]
 
 resources:
   Resources:
-    customersTable:
+    CustomersTable:
       Type: AWS::DynamoDB::Table
       Properties:
+        TableName: ${self:custom.customersTableName}
         AttributeDefinitions:
           - AttributeName: _id
             AttributeType: S
         KeySchema:
           - AttributeName: _id
-            KeyType: HASH        
+            KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
 
 functions:
-  helloWorld:
-    handler: src/handlers/hello.handler
+  createCustomer:
+    handler: src/handlers/customerCreate.handler
     events:
       - http:
           method: POST
-          path: /hello
+          path: /customers
+          cors: true
