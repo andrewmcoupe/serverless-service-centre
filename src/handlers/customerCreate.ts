@@ -1,5 +1,6 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import { DynamoDB } from 'aws-sdk'
+import { InternalServerError } from 'http-errors'
 
 const dynamoDb = new DynamoDB.DocumentClient()
 const CUSTOMERS_TABLE_NAME = process.env.CUSTOMERS_TABLE_NAME || 'test'
@@ -26,11 +27,15 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
     Item: payload,
   }
 
-  await dynamoDb.put(params).promise()
+  try {
+    await dynamoDb.put(params).promise()
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(payload),
+    return {
+      statusCode: 200,
+      body: JSON.stringify(payload),
+    }
+  } catch (error) {
+    throw new InternalServerError()
   }
 }
 

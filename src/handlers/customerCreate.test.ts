@@ -25,6 +25,20 @@ describe('Create a customer', () => {
     expect(result.body).toBe('No body provided')
   })
 
+  it('should return a 400 if email field is missing', async () => {
+    const result = (await handler(
+      {
+        ...sampleAPIGatewayEvent,
+        body: JSON.stringify({ name: 'Andy' }),
+      },
+      {} as Context,
+      jest.fn(),
+    )) as APIGatewayProxyResult
+
+    expect(result.statusCode).toBe(400)
+    expect(result.body).toBe('Name and email must be provided')
+  })
+
   it('should return 200 on successfully creating a customer', async () => {
     const body = JSON.stringify({ name: 'Test name', email: 'test@test.com' })
     const result = (await handler(
