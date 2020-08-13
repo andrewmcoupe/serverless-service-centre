@@ -2,6 +2,14 @@ import { handler } from './customerCreate'
 import { sampleAPIGatewayEvent } from '../helpers/fixtures/apiGatewayEvent'
 import { APIGatewayProxyResult, Context } from 'aws-lambda'
 
+jest.mock('aws-sdk', () => ({
+  DynamoDB: {
+    DocumentClient: jest.fn().mockReturnValue({
+      put: jest.fn(() => ({ promise: jest.fn() })),
+    }),
+  },
+}))
+
 describe('Create a customer', () => {
   it('should return a 400 if there is no body provided', async () => {
     const result = (await handler(
