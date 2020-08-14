@@ -1,9 +1,5 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
-import { DynamoDB } from 'aws-sdk'
-import { InternalServerError } from 'http-errors'
-
-const dynamoDb = new DynamoDB.DocumentClient()
-const CUSTOMERS_TABLE_NAME = process.env.CUSTOMERS_TABLE_NAME || 'test'
+import * as CustomerService from '../services/customerService'
 
 export const handler: APIGatewayProxyHandler = async (event): Promise<APIGatewayProxyResult> => {
   if (!event.body) {
@@ -22,21 +18,16 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
     }
   }
 
-  const params = {
-    TableName: CUSTOMERS_TABLE_NAME,
-    Item: payload,
-  }
-
-  try {
-    await dynamoDb.put(params).promise()
-
+  const result = await CustomerService.createCustomer(payload)
+  if (result) {
     return {
       statusCode: 200,
-      body: JSON.stringify(payload),
+      body: JSON.stringify(true),
     }
-  } catch (error) {
-    throw new InternalServerError()
+  } else {
+    return {
+      statusCode: 500,
+      body: 'Internal Server Error',
+    }
   }
 }
-
-// export const handler = withMiddleware(createCustomer)
