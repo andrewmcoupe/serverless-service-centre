@@ -57,3 +57,11 @@ functions:
           method: POST
           path: /customers
           cors: true
+
+  getCustomer:
+    handler: src/handlers/customersGet.handler
+    events:
+      - http:
+          method: Get
+          path: /customers/{id}
+          cors: true

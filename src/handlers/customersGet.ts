@@ -18,7 +18,7 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
   if (!customer) {
     return {
       statusCode: 404,
-      body: 'Vehicle not found',
+      body: 'Customer not found',
     }
   }
 
