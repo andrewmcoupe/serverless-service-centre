@@ -10,14 +10,10 @@
     "lint": "eslint . --ext .ts"
   },
   "dependencies": {
-    "@middy/core": "^1.2.0",
-    "@middy/http-error-handler": "^1.2.0",
-    "@middy/http-event-normalizer": "^1.2.0",
-    "@middy/http-json-body-parser": "^1.2.0",
-    "@middy/validator": "^1.2.0",
     "http-errors": "^1.8.0",
     "serverless-pseudo-parameters": "^2.5.0",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.10",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",
@@ -25,6 +21,7 @@
     "@types/jest": "^26.0.9",
     "@types/node": "^10.12.18",
     "@types/serverless": "^1.72.5",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
     "aws-sdk": "^2.730.0",

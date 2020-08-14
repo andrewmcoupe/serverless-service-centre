@@ -51,6 +51,6 @@ describe('Create a customer', () => {
     )) as APIGatewayProxyResult
 
     expect(result.statusCode).toBe(200)
-    expect(result.body).toMatch(body)
+    expect(result.body).toBe('true')
   })
 })
