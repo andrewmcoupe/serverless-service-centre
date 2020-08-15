@@ -1,6 +1,6 @@
 import { APIGatewayProxyResult, Context } from 'aws-lambda'
 import { handler } from './customersGet'
-import { sampleAPIGatewayEvent } from '../helpers/fixtures/apiGatewayEvent'
+import { sampleAPIGatewayEvent } from '../test-helpers/fixtures/apiGatewayEvent'
 import { DynamoDB } from 'aws-sdk'
 import { v4 as uuid } from 'uuid'
 

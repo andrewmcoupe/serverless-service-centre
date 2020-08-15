@@ -3,6 +3,7 @@ import * as CustomerService from '../services/customerService'
 
 export const handler: APIGatewayProxyHandler = async (event): Promise<APIGatewayProxyResult> => {
   if (!event.pathParameters || !event.pathParameters.id) {
+    console.log(event.pathParameters)
     return {
       statusCode: 500,
       body: 'Path parameter ID must be provided',
