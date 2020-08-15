@@ -7,6 +7,11 @@ export const getCustomerById = async (id: string) => {
   return customer
 }
 
+export const getCustomers = async () => {
+  const customers = await DataAccess.getCustomers()
+  return customers
+}
+
 export const createCustomer = async (customer: CustomerModel) => {
   const newCustomer = await DataAccess.createCustomer({ ...customer, _id: uuid() })
   return newCustomer

@@ -3,7 +3,7 @@ import { CustomerModel } from '../domain/CustomerModel'
 
 const dynamoDb = new DynamoDB.DocumentClient()
 
-export const getCustomerById = async (id: string) => {
+export const getCustomerById = async (id: string): Promise<DynamoDB.DocumentClient.AttributeMap | undefined> => {
   const params: DynamoDB.DocumentClient.GetItemInput = {
     TableName: process.env.CUSTOMERS_TABLE_NAME as string,
     Key: {
@@ -15,7 +15,15 @@ export const getCustomerById = async (id: string) => {
   return result.Item
 }
 
-export const createCustomer = async (customer: CustomerModel) => {
+export const getCustomers = async (): Promise<DynamoDB.DocumentClient.QueryOutput> => {
+  const params: DynamoDB.DocumentClient.ScanInput = {
+    TableName: process.env.CUSTOMERS_TABLE_NAME as string,
+  }
+
+  return await dynamoDb.scan(params).promise()
+}
+
+export const createCustomer = async (customer: CustomerModel): Promise<boolean> => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.CUSTOMERS_TABLE_NAME as string,
     Item: customer,

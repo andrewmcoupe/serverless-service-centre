@@ -59,9 +59,17 @@ functions:
           cors: true
 
   getCustomer:
-    handler: src/handlers/customersGet.handler
+    handler: src/handlers/customerGet.handler
     events:
       - http:
           method: Get
           path: /customers/{id}
+          cors: true
+
+  getCustomers:
+    handler: src/handlers/customersGet.handler
+    events:
+      - http:
+          method: Get
+          path: /customers
           cors: true
