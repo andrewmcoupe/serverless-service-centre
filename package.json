@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Customer management service",
   "scripts": {
-    "test": "jest",
+    "test:unit": "jest",
+    "test:integration": "todo",
     "prettier:fix": "prettier '.' --check --write",
     "prettier:check": "prettier '.' --check",
     "tsc:repo": "tsc -p tsconfig.json --noEmit",
