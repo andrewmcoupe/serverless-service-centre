@@ -17,11 +17,11 @@ serverless offline
 ### 🧪 Unit Testing
 
 ```shell script
-npm test:unit
+npm run test:unit
 ```
 
 ### 🎶 Integration Testing
 
 ```shell script
-npm test:integration
+npm run test:integration
 ```
