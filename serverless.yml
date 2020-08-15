@@ -31,6 +31,7 @@ provider:
       Action:
         - dynamodb:PutItem
         - dynamodb:GetItem
+        - dynamodb:Scan
       Resource:
         - "Fn::GetAtt": [CustomersTable, Arn]
 
