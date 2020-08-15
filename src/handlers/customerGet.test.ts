@@ -1,6 +1,5 @@
 import { APIGatewayProxyResult, Context } from 'aws-lambda'
 import { handler } from './customerGet'
-import { sampleAPIGatewayEvent } from '../test-helpers/fixtures/apiGatewayEvent'
 import { DynamoDB } from 'aws-sdk'
 import { createAPIGatewayEvent } from '../test-helpers/createAPIGatewayEvent'
 
@@ -49,7 +48,8 @@ describe('CustomersGet', () => {
   })
 
   it('should return a 500 if no ID path parameter is provided to the request', async () => {
-    const response = (await handler({ ...sampleAPIGatewayEvent }, {} as Context, () => null)) as APIGatewayProxyResult
+    const eventWithNoIdParam = createAPIGatewayEvent()
+    const response = (await handler(eventWithNoIdParam, {} as Context, () => null)) as APIGatewayProxyResult
     expect(response.statusCode).toBe(500)
   })
 })
