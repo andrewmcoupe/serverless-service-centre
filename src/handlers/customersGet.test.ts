@@ -1,8 +1,9 @@
 import { APIGatewayProxyResult, Context } from 'aws-lambda'
-import { handler } from './customersGet'
-import { sampleAPIGatewayEvent } from '../test-helpers/fixtures/apiGatewayEvent'
 import { DynamoDB } from 'aws-sdk'
 import { v4 as uuid } from 'uuid'
+import { handler } from './customersGet'
+import { sampleAPIGatewayEvent } from '../test-helpers/fixtures/apiGatewayEvent'
+import { CustomerModel } from '../domain/CustomerModel'
 
 jest.mock('aws-sdk', () => {
   const mockedDocClient = {
@@ -15,12 +16,6 @@ jest.mock('aws-sdk', () => {
     DynamoDB: { DocumentClient: jest.fn(() => mockedDocClient) },
   }
 })
-
-interface CustomerModel {
-  _id: string
-  name: string
-  email: string
-}
 
 const stubCustomerDatabaseWith = (customers: CustomerModel[]): void => {
   const documentClient = new DynamoDB.DocumentClient()
