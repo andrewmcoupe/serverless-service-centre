@@ -16,3 +16,7 @@ export const createCustomer = async (customer: CustomerModel) => {
   const newCustomer = await DataAccess.createCustomer({ ...customer, _id: uuid() })
   return newCustomer
 }
+
+export const deleteCustomerById = async (id: string) => {
+  return await DataAccess.deleteCustomerById(id)
+}
