@@ -74,3 +74,11 @@ functions:
           method: Get
           path: /customers
           cors: true
+
+  deleteCustomer:
+    handler: src/handlers/customerDelete.handler
+    events:
+      - http:
+          method: delete
+          path: /customers/{id}
+          cors: true

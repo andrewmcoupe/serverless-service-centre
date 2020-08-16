@@ -9,17 +9,17 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
     }
   }
 
-  const customer = await CustomerService.getCustomerById(event.pathParameters.id)
+  const result = await CustomerService.deleteCustomerById(event.pathParameters.id)
 
-  if (!customer) {
+  if (!result) {
     return {
       statusCode: 404,
-      body: 'Customer not found',
+      body: `Problem deleting customer with ID <${event.pathParameters.id}`,
     }
   }
 
   return {
     statusCode: 200,
-    body: JSON.stringify(customer),
+    body: JSON.stringify(result),
   }
 }

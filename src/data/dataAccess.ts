@@ -37,3 +37,27 @@ export const createCustomer = async (customer: CustomerModel): Promise<boolean> 
     return false
   }
 }
+
+export const deleteCustomerById = async (id: string): Promise<boolean> => {
+  const existingCustomer = await getCustomerById(id)
+
+  if (!existingCustomer) {
+    return false
+  }
+
+  const params: DynamoDB.DocumentClient.DeleteItemInput = {
+    TableName: process.env.CUSTOMERS_TABLE_NAME as string,
+    Key: {
+      _id: id,
+    },
+    ReturnValues: 'ALL_OLD',
+  }
+
+  try {
+    await dynamoDb.delete(params).promise()
+
+    return true
+  } catch (error) {
+    throw new Error('Error deleting customer')
+  }
+}
