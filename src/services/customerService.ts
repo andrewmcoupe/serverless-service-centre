@@ -1,27 +1,23 @@
-import { v4 as uuid } from 'uuid'
 import * as DataAccess from '../data/dataAccess'
 import { CustomerBaseRecord, CustomerModel } from '../domain/CustomerModel'
+import { DynamoDB } from 'aws-sdk'
 
-export const getCustomerById = async (id: string) => {
-  const customer = await DataAccess.getCustomerById(id)
-  return customer
+export const getCustomerById = async (id: string): Promise<DynamoDB.DocumentClient.AttributeMap | undefined> => {
+  return await DataAccess.getCustomerById(id)
 }
 
-export const getCustomers = async () => {
-  const customers = await DataAccess.getCustomers()
-  return customers
+export const getCustomers = async (): Promise<DynamoDB.DocumentClient.ScanOutput> => {
+  return await DataAccess.getCustomers()
 }
 
-export const createCustomer = async (customer: CustomerBaseRecord) => {
+export const createCustomer = async (customer: CustomerBaseRecord): Promise<boolean> => {
   const augmentedCustomer: CustomerModel = {
     ...customer,
-    _id: uuid(),
     history: [],
   }
-  const newCustomer = await DataAccess.createCustomer(augmentedCustomer)
-  return newCustomer
+  return await DataAccess.createCustomer(augmentedCustomer)
 }
 
-export const deleteCustomerById = async (id: string) => {
+export const deleteCustomerById = async (id: string): Promise<boolean> => {
   return await DataAccess.deleteCustomerById(id)
 }
