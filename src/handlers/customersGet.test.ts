@@ -1,9 +1,9 @@
 import { APIGatewayProxyResult, Context } from 'aws-lambda'
 import { DynamoDB } from 'aws-sdk'
-import { v4 as uuid } from 'uuid'
 import { handler } from './customersGet'
 import { sampleAPIGatewayEvent } from '../test-helpers/fixtures/apiGatewayEvent'
 import { CustomerModel } from '../domain/CustomerModel'
+import { createFakeCustomer } from '../test-helpers/createFakeCustomer'
 
 jest.mock('aws-sdk', () => {
   const mockedDocClient = {
@@ -30,15 +30,7 @@ const callEndpoint = async () => {
 
 describe('CustomersGet', () => {
   it('should return a 200 with a list of customers', async () => {
-    const customers = [
-      { _id: uuid(), name: 'Test1', email: 'test1@test.com' },
-      {
-        _id: uuid(),
-        name: 'Test2',
-        email: 'test2@test.com',
-      },
-      { _id: uuid(), name: 'Test3', email: 'test3@test.com' },
-    ]
+    const customers = [createFakeCustomer(), createFakeCustomer()]
 
     stubCustomerDatabaseWith(customers)
 

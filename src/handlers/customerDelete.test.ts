@@ -3,6 +3,7 @@ import { DynamoDB } from 'aws-sdk'
 import { createAPIGatewayEvent } from '../test-helpers/createAPIGatewayEvent'
 import { CustomerModel } from '../domain/CustomerModel'
 import { handler } from './customerDelete'
+import { createFakeCustomer } from '../test-helpers/createFakeCustomer'
 
 jest.mock('aws-sdk', () => {
   const mockedDocClient = {
@@ -34,8 +35,9 @@ const callEndpoint = async (id?: string) => {
 
 describe('CustomerDelete', () => {
   it('should return a 200 if the customer is successfully deleted', async () => {
-    stubCustomerDatabaseWith({ _id: '54666555', name: 'Test', email: 'test@test.com' })
-    const response = await callEndpoint('54666555')
+    const stubCustomer = createFakeCustomer()
+    stubCustomerDatabaseWith(stubCustomer)
+    const response = await callEndpoint(stubCustomer._id)
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual('true')

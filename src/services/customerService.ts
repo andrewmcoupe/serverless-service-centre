@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import * as DataAccess from '../data/dataAccess'
-import { CustomerModel } from '../domain/CustomerModel'
+import { CustomerBaseRecord, CustomerModel } from '../domain/CustomerModel'
 
 export const getCustomerById = async (id: string) => {
   const customer = await DataAccess.getCustomerById(id)
@@ -12,8 +12,13 @@ export const getCustomers = async () => {
   return customers
 }
 
-export const createCustomer = async (customer: CustomerModel) => {
-  const newCustomer = await DataAccess.createCustomer({ ...customer, _id: uuid() })
+export const createCustomer = async (customer: CustomerBaseRecord) => {
+  const augmentedCustomer: CustomerModel = {
+    ...customer,
+    _id: uuid(),
+    history: [],
+  }
+  const newCustomer = await DataAccess.createCustomer(augmentedCustomer)
   return newCustomer
 }
 

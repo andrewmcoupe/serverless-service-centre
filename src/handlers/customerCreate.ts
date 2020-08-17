@@ -1,5 +1,7 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
+import { validate } from 'class-validator'
 import * as CustomerService from '../services/customerService'
+import { CustomerBaseRecord } from '../domain/CustomerModel'
 
 export const handler: APIGatewayProxyHandler = async (event): Promise<APIGatewayProxyResult> => {
   if (!event.body) {
@@ -9,16 +11,28 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
     }
   }
 
-  const payload = JSON.parse(event.body)
+  const payload: CustomerBaseRecord = JSON.parse(event.body)
 
-  if (!payload.name || !payload.email) {
+  if (!payload.name || !payload.email || !payload.address) {
     return {
       statusCode: 400,
-      body: 'Name and email must be provided',
+      body: 'Name, email and address must be provided when creating a new customer',
     }
   }
 
-  const result = await CustomerService.createCustomer(payload)
+  const newCustomer = new CustomerBaseRecord(payload)
+
+  const errors = await validate(newCustomer)
+
+  if (errors.length) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(errors),
+    }
+  }
+
+  const result = await CustomerService.createCustomer(newCustomer)
+
   if (result) {
     return {
       statusCode: 200,
