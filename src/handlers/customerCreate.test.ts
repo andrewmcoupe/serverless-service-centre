@@ -24,14 +24,33 @@ describe('Create a customer', () => {
     const result = (await handler(event, {} as Context, jest.fn())) as APIGatewayProxyResult
 
     expect(result.statusCode).toBe(400)
-    expect(result.body).toBe('Name and email must be provided')
+    expect(result.body).toBe('Name, email and address must be provided when creating a new customer')
   })
 
   it('should return 200 on successfully creating a customer', async () => {
-    const event = createAPIGatewayEvent({ body: JSON.stringify({ name: 'Test name', email: 'test@test.com' }) })
+    const event = createAPIGatewayEvent({
+      body: JSON.stringify({
+        name: 'Test name',
+        email: 'test@test.com',
+        address: '12 Smith sT',
+      }),
+    })
     const result = (await handler(event, {} as Context, jest.fn())) as APIGatewayProxyResult
 
     expect(result.statusCode).toBe(200)
     expect(result.body).toBe('true')
+  })
+
+  it('should return 400 if new customer email is not valid', async () => {
+    const event = createAPIGatewayEvent({
+      body: JSON.stringify({
+        name: 'Test name',
+        email: 'testtest.com',
+        address: '12 Smith sT',
+      }),
+    })
+    const result = (await handler(event, {} as Context, jest.fn())) as APIGatewayProxyResult
+
+    expect(result.statusCode).toBe(400)
   })
 })

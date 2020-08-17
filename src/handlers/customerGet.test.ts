@@ -3,6 +3,7 @@ import { DynamoDB } from 'aws-sdk'
 import { createAPIGatewayEvent } from '../test-helpers/createAPIGatewayEvent'
 import { handler } from './customerGet'
 import { CustomerModel } from '../domain/CustomerModel'
+import { createFakeCustomer } from '../test-helpers/createFakeCustomer'
 
 jest.mock('aws-sdk', () => {
   const mockedDocClient = {
@@ -37,7 +38,8 @@ describe('CustomersGet', () => {
   })
 
   it('should return a 200 when a customer is found in the database', async () => {
-    stubCustomerDatabaseWith({ _id: '123', name: 'Test', email: 'test@test.com' })
+    const stubCustomer = createFakeCustomer()
+    stubCustomerDatabaseWith(stubCustomer)
     const response = await callEndpoint('123')
     expect(response.statusCode).toBe(200)
   })
