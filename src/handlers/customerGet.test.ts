@@ -19,9 +19,8 @@ jest.mock('aws-sdk', () => {
 
 const stubCustomerDatabaseWith = (customer: CustomerModel | null): void => {
   const documentClient = new DynamoDB.DocumentClient()
-  ;(documentClient.get({ TableName: '', Key: {} }).promise as jest.Mock).mockReturnValue(
-    Promise.resolve({ Item: customer }),
-  )
+  const get = documentClient.get({ TableName: '', Key: {} }).promise as jest.Mock
+  get.mockResolvedValue({ Item: customer })
 }
 
 const callEndpoint = async (id?: string) => {
@@ -30,7 +29,7 @@ const callEndpoint = async (id?: string) => {
   return (await handler(event, {} as Context, () => null)) as APIGatewayProxyResult
 }
 
-describe('CustomersGet', () => {
+describe('CustomerGet', () => {
   it('should return a 404 if a customer cannot be found in the database', async () => {
     stubCustomerDatabaseWith(null)
     const response = await callEndpoint()

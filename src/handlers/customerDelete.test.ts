@@ -19,9 +19,8 @@ jest.mock('aws-sdk', () => {
 
 const stubCustomerDatabaseWith = (customer: CustomerModel | null): void => {
   const documentClient = new DynamoDB.DocumentClient()
-  ;(documentClient.get({ TableName: '', Key: {} }).promise as jest.Mock).mockReturnValue(
-    Promise.resolve({ Item: customer }),
-  )
+  const get = documentClient.get({ TableName: '', Key: {} }).promise as jest.Mock
+  get.mockResolvedValue({ Item: customer })
 }
 
 const callEndpoint = async (id?: string) => {

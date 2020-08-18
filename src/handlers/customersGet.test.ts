@@ -9,7 +9,6 @@ jest.mock('aws-sdk', () => {
   const mockedDocClient = {
     scan: jest.fn().mockReturnThis(),
     get: jest.fn().mockReturnThis(),
-    transactWrite: jest.fn().mockReturnThis(),
     promise: jest.fn(),
   }
   return {
@@ -19,9 +18,8 @@ jest.mock('aws-sdk', () => {
 
 const stubCustomerDatabaseWith = (customers: CustomerModel[]): void => {
   const documentClient = new DynamoDB.DocumentClient()
-  ;(documentClient.scan({ TableName: '' }).promise as jest.Mock).mockReturnValue(
-    Promise.resolve({ Items: [...customers] }),
-  )
+  const scan = documentClient.scan({ TableName: '' }).promise as jest.Mock
+  scan.mockResolvedValue({ Items: [...customers] })
 }
 
 const callEndpoint = async () => {
