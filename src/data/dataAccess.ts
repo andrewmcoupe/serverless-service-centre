@@ -38,6 +38,33 @@ export const createCustomer = async (customer: CustomerModel): Promise<boolean> 
   }
 }
 
+export const updateCustomer = async (id: string, customer: CustomerModel): Promise<boolean> => {
+  const params: DynamoDB.DocumentClient.UpdateItemInput = {
+    TableName: process.env.CUSTOMERS_TABLE_NAME as string,
+    Key: {
+      _id: id,
+    },
+    UpdateExpression: 'SET #cn = :nameValue, email = :email, address = :address',
+    ExpressionAttributeValues: {
+      ':nameValue': customer.name,
+      ':email': customer.email,
+      ':address': customer.address,
+    },
+    ExpressionAttributeNames: {
+      '#cn': 'name',
+    },
+  }
+
+  try {
+    await dynamoDb.update(params).promise()
+
+    return true
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
 export const deleteCustomerById = async (id: string): Promise<boolean> => {
   const existingCustomer = await getCustomerById(id)
 

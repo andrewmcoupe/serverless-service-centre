@@ -18,6 +18,10 @@ export const createCustomer = async (customer: CustomerBaseRecord): Promise<bool
   return await DataAccess.createCustomer(augmentedCustomer)
 }
 
+export const updateCustomer = async (id: string, customer: CustomerModel): Promise<boolean> => {
+  return await DataAccess.updateCustomer(id, customer)
+}
+
 export const deleteCustomerById = async (id: string): Promise<boolean> => {
   return await DataAccess.deleteCustomerById(id)
 }
