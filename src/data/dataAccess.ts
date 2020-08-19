@@ -44,11 +44,12 @@ export const updateCustomer = async (id: string, customer: CustomerModel): Promi
     Key: {
       _id: id,
     },
-    UpdateExpression: 'SET #cn = :nameValue, email = :email, address = :address',
+    UpdateExpression: 'SET #cn = :nameValue, email = :email, address = :address, history = :history',
     ExpressionAttributeValues: {
       ':nameValue': customer.name,
       ':email': customer.email,
       ':address': customer.address,
+      ':history': customer.history,
     },
     ExpressionAttributeNames: {
       '#cn': 'name',
