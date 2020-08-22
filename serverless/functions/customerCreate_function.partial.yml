@@ -1,0 +1,7 @@
+createCustomer:
+  handler: src/handlers/customerCreate.handler
+  events:
+    - http:
+        method: POST
+        path: /customers
+        cors: true

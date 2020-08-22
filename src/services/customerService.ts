@@ -10,7 +10,7 @@ export const getCustomers = async (): Promise<DynamoDB.DocumentClient.ScanOutput
   return await DataAccess.getCustomers()
 }
 
-export const createCustomer = async (customer: CustomerBaseRecord): Promise<boolean> => {
+export const createCustomer = async (customer: CustomerBaseRecord): Promise<CustomerModel | false> => {
   const augmentedCustomer: CustomerModel = {
     ...customer,
     history: [],

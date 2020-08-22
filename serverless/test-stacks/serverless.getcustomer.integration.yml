@@ -1,0 +1,52 @@
+app: sservice-centre-integration
+service:
+  name: service-centre-integration
+  region: eu-west-1
+
+package:
+  individually: true
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  stage: integration
+  customersTableName: service-centre-customers-${self:custom.stage}
+  output:
+    file: serverless-output.json
+
+plugins:
+  - serverless-webpack
+  - serverless-pseudo-parameters
+  - serverless-stack-output
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    CUSTOMERS_TABLE_NAME: ${self:custom.customersTableName}
+    SERVICE_CENTRE_STAGE: ${self:custom.customersTableName}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+      Resource:
+        - "Fn::GetAtt": [CustomersTable, Arn]
+
+functions:
+  - ${file(./serverless/functions/customerGet_function.partial.yml)}
+  - ${file(./serverless/functions/customerCreate_function.partial.yml)}
+
+resources:
+  - ${file(./serverless/resources/customers-table.partial.yml)}
+
+Outputs:
+  ApiUrl:
+    Value:
+      Ref: ServiceEndpoint

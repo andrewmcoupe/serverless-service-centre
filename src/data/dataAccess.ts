@@ -10,6 +10,7 @@ export const getCustomerById = async (id: string): Promise<DynamoDB.DocumentClie
       _id: id,
     },
   }
+
   const result = await dynamoDb.get(params).promise()
 
   return result.Item
@@ -23,7 +24,7 @@ export const getCustomers = async (): Promise<DynamoDB.DocumentClient.QueryOutpu
   return await dynamoDb.scan(params).promise()
 }
 
-export const createCustomer = async (customer: CustomerModel): Promise<boolean> => {
+export const createCustomer = async (customer: CustomerModel): Promise<CustomerModel | false> => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.CUSTOMERS_TABLE_NAME as string,
     Item: customer,
@@ -32,7 +33,7 @@ export const createCustomer = async (customer: CustomerModel): Promise<boolean> 
   try {
     await dynamoDb.put(params).promise()
 
-    return true
+    return customer
   } catch (error) {
     return false
   }

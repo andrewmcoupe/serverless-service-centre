@@ -38,7 +38,6 @@ describe('Create a customer', () => {
     const result = (await handler(event, {} as Context, jest.fn())) as APIGatewayProxyResult
 
     expect(result.statusCode).toBe(200)
-    expect(result.body).toBe('true')
   })
 
   it('should return 400 if new customer email is not valid', async () => {
