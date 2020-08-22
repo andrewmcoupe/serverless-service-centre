@@ -62,7 +62,6 @@ export const updateCustomer = async (id: string, customer: CustomerModel): Promi
 
     return true
   } catch (error) {
-    console.log(error)
     return false
   }
 }
