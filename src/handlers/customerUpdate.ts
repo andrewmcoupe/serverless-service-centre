@@ -26,6 +26,9 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
   if (result) {
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
       body: JSON.stringify(result),
     }
   } else {
