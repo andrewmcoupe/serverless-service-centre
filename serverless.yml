@@ -37,57 +37,34 @@ provider:
         - "Fn::GetAtt": [CustomersTable, Arn]
 
 resources:
-  Resources:
-    CustomersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:custom.customersTableName}
-        AttributeDefinitions:
-          - AttributeName: _id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: _id
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
+  - ${file(serverless/resources/customers-table.partial.yml)}
 
 
 functions:
-  createCustomer:
-    handler: src/handlers/customerCreate.handler
-    events:
-      - http:
-          method: POST
-          path: /customers
-          cors: true
+  - ${file(serverless/functions/customerCreate_function.partial.yml)}
 
-  getCustomer:
-    handler: src/handlers/customerGet.handler
-    events:
-      - http:
-          method: Get
-          path: /customers/{id}
-          cors: true
+  - ${file(serverless/functions/customerGet_function.partial.yml)}
 
-  getCustomers:
-    handler: src/handlers/customersGet.handler
-    events:
-      - http:
-          method: Get
-          path: /customers
-          cors: true
+  - getCustomers:
+      handler: src/handlers/customersGet.handler
+      events:
+        - http:
+            method: Get
+            path: /customers
+            cors: true
 
-  deleteCustomer:
-    handler: src/handlers/customerDelete.handler
-    events:
-      - http:
-          method: delete
-          path: /customers/{id}
-          cors: true
+  - deleteCustomer:
+      handler: src/handlers/customerDelete.handler
+      events:
+        - http:
+            method: delete
+            path: /customers/{id}
+            cors: true
 
-  updateCustomer:
-    handler: src/handlers/customerUpdate.handler
-    events:
-      - http:
-          method: put
-          path: /customers/{id}
-          cors: true
+  - updateCustomer:
+      handler: src/handlers/customerUpdate.handler
+      events:
+        - http:
+            method: put
+            path: /customers/{id}
+            cors: true
