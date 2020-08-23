@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { readFileSync } from 'fs'
+import { readFileSync, unlinkSync } from 'fs'
 import axios, { AxiosResponse } from 'axios'
 import { company, internet, address } from 'faker'
 
@@ -23,13 +23,13 @@ describe('Create customer and add to DynamoDB', () => {
   })
 
   afterAll(() => {
-    // execSync(
-    //   `npx serverless remove --config serverless/test-stacks/serverless.createcustomer.integration.yml --stage ${STAGE}`,
-    //   { stdio: 'inherit' },
-    // )
-    //
-    // // Remove serverless output file
-    // unlinkSync('serverless-output.json')
+    execSync(
+      `npx serverless remove --config serverless/test-stacks/serverless.createcustomer.integration.yml --stage ${STAGE}`,
+      { stdio: 'inherit' },
+    )
+
+    // Remove serverless output file
+    unlinkSync('serverless-output.json')
   })
 
   it('should successfully create a new customer and store in the database', async () => {
