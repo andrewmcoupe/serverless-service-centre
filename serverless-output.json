@@ -1,0 +1,5 @@
+{
+  "CreateCustomerLambdaFunctionQualifiedArn": "arn:aws:lambda:eu-west-1:426272767687:function:service-centre-integration-integration-createCustomer:22",
+  "ServiceEndpoint": "https://wwdt09g2yh.execute-api.eu-west-1.amazonaws.com/integration",
+  "ServerlessDeploymentBucketName": "service-centre-integrati-serverlessdeploymentbuck-1m5in6yv50f50"
+}

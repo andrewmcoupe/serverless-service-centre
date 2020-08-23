@@ -45,6 +45,7 @@ describe('Get customer from DynamoDB', () => {
   it('should retrieve the customer from the database', async () => {
     const result: AxiosResponse<CustomerModel> = await axios.get(`${apiBaseUrl}/customers/${stubCustomer?._id}`)
 
+    expect(result.status).toBe(200)
     expect(result.data.name).toEqual(stubCustomer?.name)
   })
 })

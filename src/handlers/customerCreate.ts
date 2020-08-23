@@ -13,13 +13,6 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
 
   const payload: CustomerBaseRecord = JSON.parse(event.body)
 
-  if (!payload.name || !payload.email || !payload.address) {
-    return {
-      statusCode: 400,
-      body: 'Name, email and address must be provided when creating a new customer',
-    }
-  }
-
   const newCustomer = new CustomerBaseRecord(payload)
 
   const errors = await validate(newCustomer)
