@@ -1,0 +1,7 @@
+getCustomers:
+  handler: src/handlers/customersGet.handler
+  events:
+    - http:
+        method: Get
+        path: /customers
+        cors: true

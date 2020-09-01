@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 import { readFileSync, unlinkSync } from 'fs'
 import axios, { AxiosResponse } from 'axios'
-import { company, internet, address } from 'faker'
+import { company, internet, address, name, phone } from 'faker'
 
 import { CustomerModel } from '../domain/CustomerModel'
 
@@ -26,6 +26,18 @@ describe('Get customer from DynamoDB', () => {
     const response: AxiosResponse<CustomerModel> = await axios.post(`${apiBaseUrl}/customers`, {
       name: company.companyName(),
       email: internet.email(),
+      phone1: {
+        name: name.firstName(),
+        number: phone.phoneNumber(),
+      },
+      phone2: {
+        name: name.firstName(),
+        number: phone.phoneNumber(),
+      },
+      phone3: {
+        name: name.firstName(),
+        number: phone.phoneNumber(),
+      },
       address: address.streetAddress(),
     })
 

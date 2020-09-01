@@ -22,6 +22,7 @@ provider:
   memorySize: 256
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     CUSTOMERS_TABLE_NAME: ${self:custom.customersTableName}
@@ -34,37 +35,18 @@ provider:
         - dynamodb:Scan
         - dynamodb:DeleteItem
       Resource:
-        - "Fn::GetAtt": [CustomersTable, Arn]
+        - "Fn::GetAtt": [ CustomersTable, Arn ]
 
 resources:
   - ${file(serverless/resources/customers-table.partial.yml)}
-
 
 functions:
   - ${file(serverless/functions/customerCreate_function.partial.yml)}
 
   - ${file(serverless/functions/customerGet_function.partial.yml)}
 
-  - getCustomers:
-      handler: src/handlers/customersGet.handler
-      events:
-        - http:
-            method: Get
-            path: /customers
-            cors: true
+  - ${file(serverless/functions/customersGet_function.partial.yml)}
 
-  - deleteCustomer:
-      handler: src/handlers/customerDelete.handler
-      events:
-        - http:
-            method: delete
-            path: /customers/{id}
-            cors: true
+  - ${file(serverless/functions/customerDelete_function.partial.yml)}
 
-  - updateCustomer:
-      handler: src/handlers/customerUpdate.handler
-      events:
-        - http:
-            method: put
-            path: /customers/{id}
-            cors: true
+  - ${file(serverless/functions/customerUpdate_function.partial.yml)}
