@@ -1,0 +1,7 @@
+updateCustomer:
+  handler: src/handlers/customerUpdate.handler
+  events:
+    - http:
+        method: put
+        path: /customers/{id}
+        cors: true

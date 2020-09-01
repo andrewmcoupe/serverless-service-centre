@@ -1,0 +1,7 @@
+deleteCustomer:
+  handler: src/handlers/customerDelete.handler
+  events:
+    - http:
+        method: delete
+        path: /customers/{id}
+        cors: true

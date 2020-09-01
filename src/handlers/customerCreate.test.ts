@@ -32,6 +32,10 @@ describe('Create a customer', () => {
         name: 'Test name',
         email: 'test@test.com',
         address: '12 Smith sT',
+        phone1: {
+          name: 'Andy Coupe',
+          number: '01204111111',
+        },
       }),
     })
     const result = (await handler(event, {} as Context, jest.fn())) as APIGatewayProxyResult

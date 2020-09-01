@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 import { readFileSync, unlinkSync } from 'fs'
 import axios, { AxiosResponse } from 'axios'
-import { company, internet, address } from 'faker'
+import { company, internet, address, name, phone } from 'faker'
 
 import { CustomerModel } from '../domain/CustomerModel'
 
@@ -36,6 +36,18 @@ describe('Create customer and add to DynamoDB', () => {
     const stubNewCustomer = {
       name: company.companyName(),
       email: internet.email(),
+      phone1: {
+        name: name.firstName(),
+        number: phone.phoneNumber(),
+      },
+      phone2: {
+        name: name.firstName(),
+        number: phone.phoneNumber(),
+      },
+      phone3: {
+        name: name.firstName(),
+        number: phone.phoneNumber(),
+      },
       address: address.streetAddress(),
     }
 
@@ -43,6 +55,12 @@ describe('Create customer and add to DynamoDB', () => {
 
     expect(response.status).toBe(200)
     expect(response.data.name).toEqual(stubNewCustomer.name)
+    expect(response.data.phone1.name).toEqual(stubNewCustomer.phone1.name)
+    expect(response.data.phone1.number).toEqual(stubNewCustomer.phone1.number)
+    expect(response.data.phone2.name).toEqual(stubNewCustomer.phone2.name)
+    expect(response.data.phone2.number).toEqual(stubNewCustomer.phone2.number)
+    expect(response.data.phone3.name).toEqual(stubNewCustomer.phone3.name)
+    expect(response.data.phone3.number).toEqual(stubNewCustomer.phone3.number)
     expect(response.data.email).toEqual(stubNewCustomer.email)
     expect(response.data.address).toEqual(stubNewCustomer.address)
   })

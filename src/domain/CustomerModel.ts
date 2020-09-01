@@ -1,10 +1,18 @@
-import { IsEmail, IsString } from 'class-validator'
+import { IsEmail, IsNotEmpty } from 'class-validator'
 import { v4 as uuid } from 'uuid'
+
+interface PhoneContact {
+  name: string
+  number: string
+}
 
 export interface CustomerModel {
   _id: string
   name: string
   email: string
+  phone1: PhoneContact
+  phone2: PhoneContact
+  phone3: PhoneContact
   address: string
   history: HistoryItem[]
 }
@@ -12,18 +20,28 @@ export interface CustomerModel {
 export class CustomerBaseRecord {
   _id: string
 
-  @IsString()
+  @IsNotEmpty()
   name: string
 
   @IsEmail()
   email: string
 
-  @IsString()
+  @IsNotEmpty()
+  phone1: PhoneContact
+
+  phone2: PhoneContact
+
+  phone3: PhoneContact
+
+  @IsNotEmpty()
   address: string
 
   constructor(customer: CustomerBaseRecord) {
     this._id = uuid()
     this.name = customer.name
+    this.phone1 = customer.phone1
+    this.phone2 = customer.phone2
+    this.phone3 = customer.phone3
     this.email = customer.email
     this.address = customer.address
   }
