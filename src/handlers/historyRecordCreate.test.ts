@@ -5,19 +5,6 @@ import { getCustomerById, updateCustomer } from '../data/dataAccess'
 import { createFakeCustomer } from '../test-helpers/createFakeCustomer'
 
 jest.mock('../data/dataAccess')
-jest.mock('../services/customerService', () => ({
-  getCustomerById: jest.fn(),
-  createHistoryRecord: jest.requireActual('../services/customerService').createHistoryRecord,
-}))
-
-// jest.mock('aws-sdk', () => ({
-//   DynamoDB: {
-//     DocumentClient: jest.fn().mockReturnValue({
-//       get: jest.fn(() => ({ promise: jest.fn() })),
-//       update: jest.fn(() => ({ promise: jest.fn() })),
-//     }),
-//   },
-// }))
 
 describe('Create a customer history record', () => {
   it('should return a 400 if there is no body provided', async () => {
