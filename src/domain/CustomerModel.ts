@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 import { v4 as uuid } from 'uuid'
 
 interface PhoneContact {
@@ -49,6 +49,53 @@ export class CustomerBaseRecord {
     this.phone3 = customer.phone3 ?? { ...additionalPhoneContact }
     this.email = customer.email
     this.address = customer.address
+  }
+}
+
+export class HistoryRecord {
+  _id: string
+
+  @IsNotEmpty()
+  compressor: string
+
+  @IsNotEmpty()
+  jobDescription: string
+
+  @IsNotEmpty()
+  supplier: string
+
+  @IsString()
+  quoteSheetUrl: string
+
+  @IsString()
+  powraSheetUrl: string
+
+  @IsString()
+  ramsSheetUrl: string
+
+  @IsString()
+  jobSheetUrl: string
+
+  @IsString()
+  invoiceUrl: string
+
+  invoiceNumber: string
+  nextDueDate: Date | null
+  purchaseOrderNumber: string
+
+  constructor(historyRecord: HistoryRecord) {
+    this._id = uuid()
+    this.compressor = historyRecord.compressor
+    this.jobDescription = historyRecord.jobDescription
+    this.supplier = historyRecord.supplier
+    this.quoteSheetUrl = historyRecord.quoteSheetUrl
+    this.powraSheetUrl = historyRecord.powraSheetUrl
+    this.ramsSheetUrl = historyRecord.ramsSheetUrl
+    this.jobSheetUrl = historyRecord.jobSheetUrl
+    this.invoiceUrl = historyRecord.invoiceUrl
+    this.invoiceNumber = historyRecord.invoiceNumber
+    this.nextDueDate = historyRecord.nextDueDate
+    this.purchaseOrderNumber = historyRecord.purchaseOrderNumber
   }
 }
 

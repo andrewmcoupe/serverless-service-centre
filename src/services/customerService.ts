@@ -1,5 +1,5 @@
 import * as DataAccess from '../data/dataAccess'
-import { CustomerBaseRecord, CustomerModel } from '../domain/CustomerModel'
+import { CustomerBaseRecord, CustomerModel, HistoryRecord } from '../domain/CustomerModel'
 import { DynamoDB } from 'aws-sdk'
 
 export const getCustomerById = async (id: string): Promise<DynamoDB.DocumentClient.AttributeMap | undefined> => {
@@ -24,4 +24,18 @@ export const updateCustomer = async (id: string, customer: CustomerModel): Promi
 
 export const deleteCustomerById = async (id: string): Promise<boolean> => {
   return await DataAccess.deleteCustomerById(id)
+}
+export const createHistoryRecord = async (id: string, historyRecord: HistoryRecord): Promise<boolean> => {
+  const customer = (await getCustomerById(id)) as CustomerModel
+  console.log(customer)
+  if (!customer) {
+    return false
+  }
+
+  const augmentedCustomer = {
+    ...customer,
+    history: [...customer.history, historyRecord],
+  }
+
+  return await updateCustomer(customer._id, augmentedCustomer)
 }

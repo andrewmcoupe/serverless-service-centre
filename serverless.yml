@@ -50,3 +50,5 @@ functions:
   - ${file(serverless/functions/customerDelete_function.partial.yml)}
 
   - ${file(serverless/functions/customerUpdate_function.partial.yml)}
+
+  - ${file(serverless/functions/historyCreate_function.partial.yml)}
