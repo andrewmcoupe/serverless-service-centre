@@ -88,11 +88,11 @@ export class HistoryRecord {
     this.compressor = historyRecord.compressor
     this.jobDescription = historyRecord.jobDescription
     this.supplier = historyRecord.supplier
-    this.quoteSheetUrl = historyRecord.quoteSheetUrl
-    this.powraSheetUrl = historyRecord.powraSheetUrl
-    this.ramsSheetUrl = historyRecord.ramsSheetUrl
-    this.jobSheetUrl = historyRecord.jobSheetUrl
-    this.invoiceUrl = historyRecord.invoiceUrl
+    this.quoteSheetUrl = historyRecord.quoteSheetUrl ?? ''
+    this.powraSheetUrl = historyRecord.powraSheetUrl ?? ''
+    this.ramsSheetUrl = historyRecord.ramsSheetUrl ?? ''
+    this.jobSheetUrl = historyRecord.jobSheetUrl ?? ''
+    this.invoiceUrl = historyRecord.invoiceUrl ?? ''
     this.invoiceNumber = historyRecord.invoiceNumber
     this.nextDueDate = historyRecord.nextDueDate
     this.purchaseOrderNumber = historyRecord.purchaseOrderNumber

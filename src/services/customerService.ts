@@ -27,7 +27,7 @@ export const deleteCustomerById = async (id: string): Promise<boolean> => {
 }
 export const createHistoryRecord = async (id: string, historyRecord: HistoryRecord): Promise<boolean> => {
   const customer = (await getCustomerById(id)) as CustomerModel
-  console.log(customer)
+
   if (!customer) {
     return false
   }
