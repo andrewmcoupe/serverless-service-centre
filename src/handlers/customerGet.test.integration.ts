@@ -1,5 +1,6 @@
 import { execSync } from 'child_process'
 import { readFileSync, unlinkSync } from 'fs'
+import waitForExpect from 'wait-for-expect'
 import axios, { AxiosResponse } from 'axios'
 import { company, internet, address, name, phone } from 'faker'
 
@@ -57,7 +58,13 @@ describe('Get customer from DynamoDB', () => {
   it('should retrieve the customer from the database', async () => {
     const result: AxiosResponse<CustomerModel> = await axios.get(`${apiBaseUrl}/customers/${stubCustomer?._id}`)
 
-    expect(result.status).toBe(200)
-    expect(result.data.name).toEqual(stubCustomer?.name)
-  })
+    await waitForExpect(
+      () => {
+        expect(result.status).toBe(200)
+        expect(result.data.name).toEqual(stubCustomer?.name)
+      },
+      10000,
+      10000,
+    )
+  }, 10000)
 })

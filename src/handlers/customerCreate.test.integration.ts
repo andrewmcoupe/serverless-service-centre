@@ -1,5 +1,6 @@
 import { execSync } from 'child_process'
 import { readFileSync, unlinkSync } from 'fs'
+import waitForExpect from 'wait-for-expect'
 import axios, { AxiosResponse } from 'axios'
 import { company, internet, address, name, phone } from 'faker'
 
@@ -52,16 +53,21 @@ describe('Create customer and add to DynamoDB', () => {
     }
 
     const response: AxiosResponse<CustomerModel> = await axios.post(`${apiBaseUrl}/customers`, stubNewCustomer)
-
-    expect(response.status).toBe(200)
-    expect(response.data.name).toEqual(stubNewCustomer.name)
-    expect(response.data.phone1.name).toEqual(stubNewCustomer.phone1.name)
-    expect(response.data.phone1.number).toEqual(stubNewCustomer.phone1.number)
-    expect(response.data.phone2.name).toEqual(stubNewCustomer.phone2.name)
-    expect(response.data.phone2.number).toEqual(stubNewCustomer.phone2.number)
-    expect(response.data.phone3.name).toEqual(stubNewCustomer.phone3.name)
-    expect(response.data.phone3.number).toEqual(stubNewCustomer.phone3.number)
-    expect(response.data.email).toEqual(stubNewCustomer.email)
-    expect(response.data.address).toEqual(stubNewCustomer.address)
-  })
+    await waitForExpect(
+      () => {
+        expect(response.status).toBe(200)
+        expect(response.data.name).toEqual(stubNewCustomer.name)
+        expect(response.data.phone1.name).toEqual(stubNewCustomer.phone1.name)
+        expect(response.data.phone1.number).toEqual(stubNewCustomer.phone1.number)
+        expect(response.data.phone2.name).toEqual(stubNewCustomer.phone2.name)
+        expect(response.data.phone2.number).toEqual(stubNewCustomer.phone2.number)
+        expect(response.data.phone3.name).toEqual(stubNewCustomer.phone3.name)
+        expect(response.data.phone3.number).toEqual(stubNewCustomer.phone3.number)
+        expect(response.data.email).toEqual(stubNewCustomer.email)
+        expect(response.data.address).toEqual(stubNewCustomer.address)
+      },
+      10000,
+      10000,
+    )
+  }, 10000)
 })
