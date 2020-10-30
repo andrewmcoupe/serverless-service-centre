@@ -1,0 +1,7 @@
+createHistoryRecord:
+  handler: src/handlers/historyRecordCreate.handler
+  events:
+    - http:
+        method: POST
+        path: /customers/{id}/history
+        cors: true
