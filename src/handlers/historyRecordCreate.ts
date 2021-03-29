@@ -44,7 +44,7 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
   } else {
     return {
       statusCode: 500,
-      body: 'Internal Server Error',
+      body: JSON.stringify(result),
     }
   }
 }

@@ -1,0 +1,7 @@
+fileUpload:
+  handler: src/handlers/fileUpload.handler
+  events:
+    - http:
+        method: post
+        path: /file-upload
+        cors: true
