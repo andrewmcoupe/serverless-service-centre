@@ -34,6 +34,9 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
   } else {
     return {
       statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
       body: 'Internal Server Error',
     }
   }
