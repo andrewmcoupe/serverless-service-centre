@@ -20,7 +20,6 @@ provider:
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   memorySize: 256
-  profile: service-centre-v2
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
 
