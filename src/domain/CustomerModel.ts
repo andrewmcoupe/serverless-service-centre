@@ -1,23 +1,18 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 import { v4 as uuid } from 'uuid'
 
-interface PhoneContact {
-  name: string
-  number: string
-}
-
 export interface CustomerModel {
   _id: string
   name: string
   email: string
-  phone1: PhoneContact
-  phone2: PhoneContact
-  phone3: PhoneContact
+  phone1: typeof additionalPhoneContact
+  phone2: typeof additionalPhoneContact
+  phone3: typeof additionalPhoneContact
   address: string
   history: HistoryItem[]
 }
 
-const additionalPhoneContact: PhoneContact = {
+const additionalPhoneContact = {
   name: '',
   number: '',
 }
@@ -32,11 +27,11 @@ export class CustomerBaseRecord {
   email: string
 
   @IsNotEmpty()
-  phone1: PhoneContact
+  phone1: typeof additionalPhoneContact
 
-  phone2: PhoneContact
+  phone2: typeof additionalPhoneContact
 
-  phone3: PhoneContact
+  phone3: typeof additionalPhoneContact
 
   @IsNotEmpty()
   address: string
@@ -82,6 +77,7 @@ export class HistoryRecord {
   invoiceNumber: string
   nextDueDate: Date | null
   purchaseOrderNumber: string
+  notRequiredInputs: string[]
 
   constructor(historyRecord: HistoryRecord) {
     this._id = uuid()
@@ -96,6 +92,7 @@ export class HistoryRecord {
     this.invoiceNumber = historyRecord.invoiceNumber
     this.nextDueDate = historyRecord.nextDueDate
     this.purchaseOrderNumber = historyRecord.purchaseOrderNumber
+    this.notRequiredInputs = historyRecord.notRequiredInputs ?? []
   }
 }
 

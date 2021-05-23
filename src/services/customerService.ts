@@ -25,6 +25,7 @@ export const updateCustomer = async (id: string, customer: CustomerModel): Promi
 export const deleteCustomerById = async (id: string): Promise<boolean> => {
   return await DataAccess.deleteCustomerById(id)
 }
+
 export const createHistoryRecord = async (id: string, historyRecord: HistoryRecord): Promise<boolean> => {
   const customer = (await getCustomerById(id)) as CustomerModel
 

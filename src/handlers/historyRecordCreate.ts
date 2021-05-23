@@ -16,7 +16,7 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
   if (!customerId) {
     return {
       statusCode: 400,
-      body: 'No paath parameter provided',
+      body: 'No path parameter provided',
     }
   }
 
