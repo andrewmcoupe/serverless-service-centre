@@ -60,19 +60,19 @@ export class HistoryRecord {
   supplier: string
 
   @IsString()
-  quoteSheetUrl: string
+  quoteMedia: string
 
   @IsString()
-  powraSheetUrl: string
+  powraMedia: string
 
   @IsString()
-  ramsSheetUrl: string
+  ramMedia: string
 
   @IsString()
-  jobSheetUrl: string
+  jobSheetMedia: string
 
   @IsString()
-  invoiceUrl: string
+  invoiceMedia: string
 
   invoiceNumber: string
   nextDueDate: Date | null
@@ -84,11 +84,11 @@ export class HistoryRecord {
     this.compressor = historyRecord.compressor
     this.jobDescription = historyRecord.jobDescription
     this.supplier = historyRecord.supplier
-    this.quoteSheetUrl = historyRecord.quoteSheetUrl ?? ''
-    this.powraSheetUrl = historyRecord.powraSheetUrl ?? ''
-    this.ramsSheetUrl = historyRecord.ramsSheetUrl ?? ''
-    this.jobSheetUrl = historyRecord.jobSheetUrl ?? ''
-    this.invoiceUrl = historyRecord.invoiceUrl ?? ''
+    this.quoteMedia = historyRecord.quoteMedia ?? ''
+    this.powraMedia = historyRecord.powraMedia ?? ''
+    this.ramMedia = historyRecord.ramMedia ?? ''
+    this.jobSheetMedia = historyRecord.jobSheetMedia ?? ''
+    this.invoiceMedia = historyRecord.invoiceMedia ?? ''
     this.invoiceNumber = historyRecord.invoiceNumber
     this.nextDueDate = historyRecord.nextDueDate
     this.purchaseOrderNumber = historyRecord.purchaseOrderNumber
@@ -101,11 +101,11 @@ export interface HistoryItem {
   compressor: string
   jobDescription: string
   supplier: string
-  quoteSheetUrl: string
-  powraSheetUrl: string
-  ramsSheetUrl: string
-  jobSheetUrl: string
-  invoiceUrl: string
+  quoteMedia: string
+  powraMedia: string
+  ramMedia: string
+  jobSheetMedia: string
+  invoiceMedia: string
   invoiceNumber: string
   nextDueDate: Date | null
   purchaseOrderNumber: string
