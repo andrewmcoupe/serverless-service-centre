@@ -5,5 +5,3 @@ createCustomer:
         method: POST
         path: /customers
         cors: true
-        authorizer:
-          arn: arn:aws:cognito-idp:eu-west-1:426272767687:userpool/eu-west-1_QNmwkr4BQ
