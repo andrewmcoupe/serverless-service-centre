@@ -14,7 +14,7 @@
   "dependencies": {
     "@middy/core": "^1.2.0",
     "@middy/http-multipart-body-parser": "^1.2.0",
-    "aws-sdk": "^2.730.0",
+    "aws-sdk": "^2.1238.0",
     "axios": "^0.19.2",
     "class-validator": "^0.12.2",
     "cloudinary": "^1.23.0",
